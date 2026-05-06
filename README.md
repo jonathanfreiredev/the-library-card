@@ -2,16 +2,29 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First, create your local environment file by copying the template. You'll have to change the secrets:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+cp .env.example .env
+```
+
+Then, start a Docker container with your database:
+
+```bash
+./start-database.sh
+```
+
+Now, run migrations and generate Prisma Client:
+
+```bash
+pnpm dlx prisma migrate dev
+pnpm dlx prisma generate
+```
+
+Finally, run the development server:
+
+```bash
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
