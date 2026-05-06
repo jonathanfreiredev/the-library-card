@@ -5,7 +5,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, create your local environment file by copying the template. You'll have to change the secrets:
 
 ```bash
-cp .env.example .env
+cp example.env .env
 ```
 
 Then, start a Docker container with your database:
