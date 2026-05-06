@@ -14,11 +14,17 @@ Then, start a Docker container with your database:
 ./start-database.sh
 ```
 
-Now, run migrations and generate Prisma Client:
+Run migrations and generate Prisma Client:
 
 ```bash
 pnpm dlx prisma migrate dev
 pnpm dlx prisma generate
+```
+
+Install the dependencies:
+
+```bash
+pnpm install
 ```
 
 Finally, run the development server:
