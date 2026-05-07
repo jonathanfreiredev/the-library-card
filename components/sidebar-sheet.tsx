@@ -56,6 +56,21 @@ export function SidebarSheet({ isLoggedIn }: SidebarSheetProps) {
             </Item>
           </SheetClose>
 
+          <SheetClose asChild>
+            <Item
+              variant="default"
+              size="sm"
+              className="cursor-pointer"
+              asChild
+            >
+              <Link href={isLoggedIn ? "/book-review/create" : "/auth/login"}>
+                <ItemContent>
+                  <ItemTitle>Create Review</ItemTitle>
+                </ItemContent>
+              </Link>
+            </Item>
+          </SheetClose>
+
           <SidebarSheetAuth />
         </div>
       </SheetContent>

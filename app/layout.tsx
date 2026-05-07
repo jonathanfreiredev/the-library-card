@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Header } from "@/components/header";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -30,7 +31,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-svh flex-col">
-        <Header />
+        <Suspense>
+          <Header />
+        </Suspense>
         {children}
         <Toaster />
       </body>
