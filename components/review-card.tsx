@@ -6,13 +6,10 @@ import { ReviewLike } from "./review-like";
 
 interface ReviewCardProps {
   review: BookReview;
-  userId?: string;
 }
 
-export async function ReviewCard({ review, userId }: ReviewCardProps) {
-  const initialLiked = userId
-    ? await getLikesStatusQuery({ bookReviewId: review.id, userId })
-    : false;
+export async function ReviewCard({ review }: ReviewCardProps) {
+  const isLiked = await getLikesStatusQuery({ bookReviewId: review.id });
 
   return (
     <ReviewCardMotion>
@@ -34,9 +31,9 @@ export async function ReviewCard({ review, userId }: ReviewCardProps) {
           <div className="flex items-center justify-between border-t border-zinc-200 pt-4">
             <ReviewLike
               bookReviewId={review.id}
-              initialLiked={initialLiked}
-              initialLikesCount={review.likesCount}
-              isAuthenticated={!!userId}
+              isLiked={!!isLiked}
+              likesCount={review.likesCount}
+              isAuthenticated={isLiked !== null}
             />
 
             {review.buyUrl ? (

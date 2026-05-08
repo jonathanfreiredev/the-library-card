@@ -19,12 +19,19 @@ export const createBookReview = async (
 export const getAllBookReviews = async (
   input: z.infer<typeof getAllBookReviewsSchema>,
 ) => {
+  const { skip, take } = input;
   const bookReviews = await db.bookReview.findMany({
-    ...input,
+    skip,
+    take,
     orderBy: {
       createdAt: "desc",
     },
   });
 
-  return bookReviews;
+  const total = await db.bookReview.count();
+
+  return {
+    data: bookReviews,
+    hasNextPage: skip + take < total,
+  };
 };

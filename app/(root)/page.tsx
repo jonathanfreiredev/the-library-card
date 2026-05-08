@@ -1,10 +1,9 @@
 import { ReviewCard } from "@/components/review-card";
 import { ReviewsBoardShell } from "@/components/reviews-board-shell";
 import { ReviewsPagination } from "@/components/reviews-pagination";
-import { getSession } from "@/lib/better-auth/server";
 import { getAllBookReviewsQuery } from "@/server/book-reviews/book-reviews.queries";
 
-const TAKE = 10;
+const TAKE = 3;
 
 interface HomePageProps {
   searchParams: Promise<{ page?: string }>;
@@ -16,13 +15,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const page = Number.isNaN(pageParam) || pageParam < 1 ? 1 : pageParam;
   const skip = (page - 1) * TAKE;
 
-  const session = await getSession();
-  if (!session?.user) {
-    return null;
-  }
-
   const reviews = await getAllBookReviewsQuery({ skip, take: TAKE });
-  const hasNextPage = reviews.length === TAKE;
 
   return (
     <ReviewsBoardShell>
@@ -36,7 +29,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         </p>
       </section>
 
-      {reviews.length === 0 ? (
+      {reviews.data.length === 0 ? (
         <div className="flex min-h-64 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50">
           <p className="text-zinc-600">
             No reviews yet. Be the first to write one.
@@ -44,17 +37,13 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         </div>
       ) : (
         <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {reviews.map((review) => (
-            <ReviewCard
-              key={review.id}
-              review={review}
-              userId={session?.user?.id}
-            />
+          {reviews.data.map((review) => (
+            <ReviewCard key={review.id} review={review} />
           ))}
         </section>
       )}
 
-      <ReviewsPagination currentPage={page} hasNextPage={hasNextPage} />
+      <ReviewsPagination currentPage={page} hasNextPage={reviews.hasNextPage} />
     </ReviewsBoardShell>
   );
 }
