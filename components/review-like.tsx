@@ -51,7 +51,7 @@ export function ReviewLike({
       return;
     }
 
-    await execute({ bookReviewId });
+    execute({ bookReviewId });
   };
 
   return (
